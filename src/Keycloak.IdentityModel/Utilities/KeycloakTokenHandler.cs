@@ -45,7 +45,7 @@ namespace Keycloak.IdentityModel.Utilities
 				RequireSignedTokens = !options.AllowUnsignedTokens,
 				ValidIssuer = uriManager.GetIssuer(),
 				ClockSkew = options.TokenClockSkew,
-				ValidAudiences = new List<string> { "null", options.ClientId },
+				ValidAudiences = new List<string> (options.Audiences ),
 				IssuerSigningKeys = uriManager.GetJsonWebKeys().GetSigningKeys(),
 				AuthenticationType = options.AuthenticationType // Not used
 			};

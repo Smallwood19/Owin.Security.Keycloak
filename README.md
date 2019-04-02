@@ -11,10 +11,11 @@ including roles and authorization information, into the OWIN pipeline for use in
 
 ## Documentation
 
-I am in the process of updating the documentation and samples. Older documentation on `Owin.Security.Keycloak` and `KeycloakIdentityModel` can be found on Dylan Plecki's [GitHub Wiki Page](https://github.com/dylanplecki/KeycloakOwinAuthentication/wiki).
+See Dylan Plecki's [GitHub Wiki Page](https://github.com/dylanplecki/KeycloakOwinAuthentication/wiki).
 
 ## NuGet Packages
 
+Notes from Matt Morgan:
 Dylan Plecki's project had two NuGet packages, one for each assembly. I have included the Keycloak.IdentityModel assembly in the Owin.Security.Keycloak-3 package so there is no longer a dependency on the KeycloakIdentityModel package.
 
 For ASP.NET and OWIN functionality:

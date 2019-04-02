@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Owin.Security.Keycloak-3</id>
+    <id>Owin.Security.Keycloak-4.6.1</id>
     <version>$FileVersion$</version>
-    <title>Owin.Security.Keycloak-3</title>
-    <authors>Matt Morgan</authors>
-    <owners>Matt Morgan</owners>
-    <licenseUrl>https://github.com/mattmorg55/Owin.Security.Keycloak/blob/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/mattmorg55/Owin.Security.Keycloak</projectUrl>
-    <iconUrl>https://github.com/mattmorg55/Owin.Security.Keycloak/master/content/keycloak_icon.png</iconUrl>
+    <title>Owin.Security.Keycloak-4.6.1</title>
+    <authors>Matt Morgan John Lewis</authors>
+    <owners>Matt Morgan John Lewis</owners>
+    <licenseUrl>https://github.com/Smallwood19/Owin.Security.Keycloak/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/Smallwood19/Owin.Security.Keycloak</projectUrl>
+    <iconUrl>https://github.com/Smallwood19/Owin.Security.Keycloak/master/content/keycloak_icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Microsoft.Owin 3.1 Authentication Middleware for JBoss Keycloak 3.2</description>
-    <releaseNotes>See https://github.com/mattmorg55/Owin.Security.Keycloak/releases</releaseNotes>
+    <releaseNotes>See https://github.com/Smallwood19/Owin.Security.Keycloak/releases</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>keycloak identitymodel identity owin microsoft authentication aspnet5</tags>
 		<dependencies>

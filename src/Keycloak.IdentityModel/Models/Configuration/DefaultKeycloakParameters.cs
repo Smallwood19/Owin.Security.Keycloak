@@ -24,9 +24,15 @@ namespace Keycloak.IdentityModel.Models.Configuration
         public string Realm { get; set; }
 
         /// <summary>
-        ///     The client ID to use for the application
+        /// Do Not Use!!!  The client ID to use for the application
         /// </summary>
         public string ClientId { get; set; }
+
+        /// <summary>
+        /// Use this setting instead of the ClientId to add multiple audiences (clients).
+        /// </summary>
+        public string[] Audiences { get; }
+
 
         /// <summary>
         ///     OPTIONAL: The client secret to use for the application

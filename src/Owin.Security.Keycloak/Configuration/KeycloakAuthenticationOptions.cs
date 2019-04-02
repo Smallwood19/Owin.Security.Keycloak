@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Keycloak.IdentityModel.Models.Configuration;
 using Microsoft.Owin.Security;
 
@@ -28,9 +29,14 @@ namespace Owin.Security.Keycloak
         public string Realm { get; set; }
 
         /// <summary>
-        ///     The client ID to use for the application
+        /// Do Not Use!!    The client ID to use for the application
         /// </summary>
         public string ClientId { get; set; }
+
+        /// <summary>
+        /// Use this instead of the ClientId to assign more than one audience.
+        /// </summary>
+        public string[] Audiences { get; set; }
 
         /// <summary>
         ///     OPTIONAL: The client secret to use for the application

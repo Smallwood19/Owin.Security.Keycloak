@@ -7,12 +7,21 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Authentication;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Keycloak.IdentityModel;
 using Keycloak.IdentityModel.Models.Responses;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
+using Newtonsoft.Json.Linq;
+using System.Configuration;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Owin.Security.Keycloak.Middleware
 {
@@ -29,6 +38,10 @@ namespace Owin.Security.Keycloak.Middleware
                     var bearerAuthArr = Request.Headers[Constants.BearerTokenHeader].Trim().Split(new[] {' '}, 2);
                     if ((bearerAuthArr.Length == 2) && bearerAuthArr[0].ToLowerInvariant() == "bearer")
                     {
+                        string secret = ConfigurationManager.AppSettings["ClientSecret"].ToString().Trim();
+                        bool validToken = ValidateJasonWebToken(bearerAuthArr[1]);
+                        if (!validToken)
+                            return null;
                         try
                         {
                             var authResponse = new TokenResponse(bearerAuthArr[1], null, null);
@@ -124,7 +137,7 @@ namespace Owin.Security.Keycloak.Middleware
 
         protected override async Task ApplyResponseChallengeAsync()
         {
-            if (Response.StatusCode == 401)
+            if (Response.StatusCode == 401 || Response.StatusCode == 500)
             {
                 // If bearer token auth is forced, keep returned 401
                 if (Options.ForceBearerTokenAuth)
@@ -143,6 +156,55 @@ namespace Owin.Security.Keycloak.Middleware
         }
 
         #region Private Helper Functions
+
+        public bool ValidateJasonWebToken(string jwtToken)
+        {
+            try
+            {
+                string rs256Key = GetPublicKeyString();
+                Validate(jwtToken, rs256Key);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                //return false;
+                throw;
+            }
+        }
+
+        private void Validate(string token, string key)
+        {
+            var keyBytes = Convert.FromBase64String(key); // your key here
+
+            AsymmetricKeyParameter asymmetricKeyParameter = PublicKeyFactory.CreateKey(keyBytes);
+            RsaKeyParameters rsaKeyParameters = (RsaKeyParameters)asymmetricKeyParameter;
+            RSAParameters rsaParameters = new RSAParameters
+            {
+                Modulus = rsaKeyParameters.Modulus.ToByteArrayUnsigned(),
+                Exponent = rsaKeyParameters.Exponent.ToByteArrayUnsigned()
+            };
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+            {
+                rsa.ImportParameters(rsaParameters);
+                var validationParameters = new TokenValidationParameters()
+                {
+                    RequireExpirationTime = false,
+                    RequireSignedTokens = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    IssuerSigningKey = new RsaSecurityKey(rsa)
+                };
+                var handler = new JwtSecurityTokenHandler();
+                var result = handler.ValidateToken(token, validationParameters, out var validatedToken);
+            }
+        }
+
+        private string GetPublicKeyString()
+        {
+            string pubKey = ConfigurationManager.AppSettings["KeycloakPublicKey"].ToString();
+            return pubKey;
+        }
 
         private void SignInAsAuthentication(ClaimsIdentity identity, AuthenticationProperties authProperties = null,
             string signInAuthType = null)

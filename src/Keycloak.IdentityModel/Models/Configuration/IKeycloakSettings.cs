@@ -8,6 +8,7 @@ namespace Keycloak.IdentityModel.Models.Configuration
         string KeycloakUrl { get; }
         string Realm { get; }
         string ClientId { get; }
+        string[] Audiences { get; }
         string ClientSecret { get; }
         string Scope { get; }
         string IdentityProvider { get; }

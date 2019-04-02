@@ -17,7 +17,9 @@
 			public const string SubjectId = "subject";
 			public const string IssuedAt = "issued_at";
 			public const string Issuer = "issuer";
-		}
+            public const string AccountName = "accountname";
+
+        }
 
 		public static class OpenIdConnectParameterNames
 		{
